@@ -1,0 +1,16 @@
+{
+  "name": "rest-api_with_auth_and_content_negotiation",
+  "version": "1.0.0",
+  "description": "",
+  "main": "app.js",
+  "scripts": {
+    "start": "nodemon ."
+  },
+  "author": "ar-pavel",
+  "license": "MIT",
+  "dependencies": {
+    "express": "^4.17.1",
+    "nodemon": "^2.0.12"
+  },
+  "devDependencies": {}
+}
