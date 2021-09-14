@@ -1,9 +1,53 @@
-
 const Article = require("../model/Article")
 
 async function getArticles(req, res) { 
     try{
         const data = await Article.findALL();
+        
+        res.status(200);
+        return res.send(data);
+        
+    }catch(err){
+        // request can't be processed
+        console.log(err);
+        res.status(500);
+        return res.send("Internal Server Error");
+    }
+}
+
+async function deleteArticles(req, res) { 
+    try{
+        const data = await Article.deleteALL();
+        
+        res.status(204);
+        return res.send(data);
+        
+    }catch(err){
+        // request can't be processed
+        console.log(err);
+        res.status(500);
+        return res.send("Internal Server Error");
+    }
+}
+
+async function getArticleByTitle(req, res) { 
+    try{
+        const data = await Article.findByTitle(req.params.title);
+        
+        res.status(200);
+        return res.send(data);
+        
+    }catch(err){
+        // request can't be processed
+        console.log(err);
+        res.status(500);
+        return res.send("Internal Server Error");
+    }
+}
+
+async function deleteArticleByTitle(req, res) { 
+    try{
+        const data = await Article.deleteArticleByTitle(req.params.title);
         
         res.status(200);
         return res.send(data);
@@ -26,7 +70,7 @@ async function createArticle(req, res) {
     }
 
     console.log("requested data:",req.body.title);
-    
+
     if(!req.body.title || !req.body.description || !req.body.author){
          return res.status(400).send({
             message: "Request body needs to be updated!"
@@ -62,5 +106,5 @@ async function createArticle(req, res) {
     
 }
 
-module.exports = {getArticles, createArticle}
+module.exports = {getArticles, createArticle, getArticleByTitle, deleteArticleByTitle, deleteArticles}
 

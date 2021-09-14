@@ -12,6 +12,9 @@ router.get("/", (req, res)=> {
 
 router.get("/articles", articleController.getArticles );
 router.post("/articles", articleController.createArticle );
+router.get("/articles/:title", articleController.getArticleByTitle);
+router.delete("/articles/:title", articleController.deleteArticleByTitle);
+router.delete("/articles", articleController.deleteArticles);
 
 
 module.exports = router;
