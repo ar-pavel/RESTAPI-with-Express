@@ -1,6 +1,5 @@
-const express = require('express');
 const Article = require('../model/Article');
-const router = express.Router();
+const router = require('express').Router();
 
 const articleController = require("../controller/ArticleController")(Article);
 
