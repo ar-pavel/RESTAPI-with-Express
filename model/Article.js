@@ -42,6 +42,7 @@ Article.findByTitle = (title) => {
   return new Promise( (resolve, reject) => {
 
       console.log("searching with title : "+title);
+      console.log("QUERY STRING:", `SELECT * FROM Articles WHERE title = ${title}`);
 
     sql.query(`SELECT * FROM Articles WHERE title = ${title}`,  (err, res)=> {
       if(err){
@@ -53,6 +54,28 @@ Article.findByTitle = (title) => {
       // request success
       console.log("article found: ", { res: res.affectedRows });
       return resolve({"Total delected" : res.affectedRows});
+
+    });
+  });
+};
+
+Article.updateByTitle = (title, article) => {
+  return new Promise( (resolve, reject) => {
+
+    console.log("updating with title : "+title, "and body :", article);
+
+
+    sql.query("UPDATE Articles SET title = ?, description = ?, author = ? WHERE title = ?", 
+    [article.title, article.description, article.author, title],  (err, res)=> {
+      if(err){
+        // handle the error
+        console.log("Error happened while updating :", title, err);
+        return reject(err);
+      }
+      
+      // request success
+      console.log("article updated: ", { res: res });
+      return resolve({"Updated" : res});
 
     });
   });
