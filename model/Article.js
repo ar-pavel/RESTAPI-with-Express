@@ -122,6 +122,8 @@ Article.findALL =  () => {
 
 Article.deleteALL =  (author) => {
   return new Promise((resolve, reject) => {
+
+    console.log("deleting all the article owned by:", author);
     
     sql.query("DELETE FROM Articles WHERE author = ?", author, (err, res)=> {
       if(err){

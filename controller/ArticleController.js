@@ -18,7 +18,8 @@ const ArticleController = (Article) => {
     
     async function deleteArticles(req, res) { 
         try{
-            const data = await Article.deleteALL();
+            console.log(req.user.username);
+            const data = await Article.deleteALL(req.user.username);
             
             res.status(204);
             return res.send(data);
