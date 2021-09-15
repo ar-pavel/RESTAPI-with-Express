@@ -73,6 +73,7 @@ const ArticleController = (Article) => {
     
     async function deleteArticleByTitle(req, res) { 
         try{
+            
             const data = await Article.deleteArticleByTitle(req.params.title);
             
             
@@ -96,17 +97,19 @@ const ArticleController = (Article) => {
         
         console.log("requested data:",req.body.title);
         
-        if(!req.body.title || !req.body.description || !req.body.author){
+        if(!req.body.title || !req.body.description){
             return res.status(400).send({
                 message: "Request body needs to be updated!"
             });
         }
+
+        // console.log("Requested by: " + req.user.username);
         
         // create article
         const article = {
             title: req.body.title,
             description: req.body.description,
-            author: req.body.author,
+            author: req.user.username,
         };
         
         console.log("requested data:", article);
