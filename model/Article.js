@@ -53,7 +53,7 @@ Article.findByTitle = (title) => {
       
       // request success
       console.log("article found: ", { res: res });
-      return resolve(res);
+      return resolve(res[0]);
 
     });
   });
@@ -95,7 +95,7 @@ Article.deleteArticleByTitle = (title) => {
       
       // request success
       console.log("article deleted: ", { res: res });
-      return resolve(res);
+      return resolve("Deleted");
 
     });
   });
@@ -120,10 +120,10 @@ Article.findALL =  () => {
   });
 };
 
-Article.deleteALL =  () => {
+Article.deleteALL =  (author) => {
   return new Promise((resolve, reject) => {
     
-    sql.query("DELETE FROM Articles", (err, res)=> {
+    sql.query("DELETE FROM Articles WHERE author = ?", author, (err, res)=> {
       if(err){
         // handle the error
         console.log("Unable to delete articles ", err);
