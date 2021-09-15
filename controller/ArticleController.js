@@ -60,14 +60,14 @@ const ArticleController = (Article) => {
 
             const data = await Article.updateByTitle(req.params.title, article);
             
-            res.status(200);
-            return res.send(data);
+            return res.status(200).send(data);
+         
             
         }catch(err){
             // request can't be processed
             console.log(err);
-            res.status(500);
-            return res.send("Internal Server Error");
+            
+            return res.status(500).send({message:"Internal Server Error"});
         }
     }
     
@@ -75,14 +75,13 @@ const ArticleController = (Article) => {
         try{
             const data = await Article.deleteArticleByTitle(req.params.title);
             
-            res.status(200);
-            return res.send(data);
+            
+            return res.status(200).send(data);
             
         }catch(err){
             // request can't be processed
             console.log(err);
-            res.status(500);
-            return res.send("Internal Server Error");
+            return res.status(500).send({message: "Internal Server Error"});
         }
     }
     

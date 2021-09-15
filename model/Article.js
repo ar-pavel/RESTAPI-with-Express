@@ -1,6 +1,5 @@
 const sql = require("./DB");
 
-
 // constructor
 const Article = function(article){
   this.title = article.title;
@@ -112,6 +111,9 @@ Article.findALL =  () => {
       }
 
       console.log("Retrived Articles:\n", res);
+
+      res = res.map((article)=>{return {title: article.title, description: article.description, author:article.author }})
+      
       return resolve(res);
     });
   });
