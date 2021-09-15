@@ -74,6 +74,15 @@ const ArticleController = (Article) => {
     async function deleteArticleByTitle(req, res) { 
         try{
             
+            const article = await Article.findByTitle(req.params.title);
+            console.log(article);
+
+            console.log(article.author, req.user.username)
+
+            if(article.author != req.user.username){
+                return res.status(401).send({message : "Not Authorized"});
+            }
+
             const data = await Article.deleteArticleByTitle(req.params.title);
             
             
