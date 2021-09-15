@@ -18,7 +18,8 @@ const ArticleController = (Article) => {
     
     async function deleteArticles(req, res) { 
         try{
-            const data = await Article.deleteALL();
+            console.log(req.user.username);
+            const data = await Article.deleteALL(req.user.username);
             
             res.status(204);
             return res.send(data);
@@ -58,6 +59,13 @@ const ArticleController = (Article) => {
             const tmp = await Article.findByTitle(req.params.title);
             console.log("Data found:", tmp);
 
+            console.log(article.author, req.user.username)
+
+            if(article.author != req.user.username){
+                return res.status(401).send({message : "Not Authorized"});
+            }
+
+
             const data = await Article.updateByTitle(req.params.title, article);
             
             return res.status(200).send(data);
@@ -73,6 +81,16 @@ const ArticleController = (Article) => {
     
     async function deleteArticleByTitle(req, res) { 
         try{
+            
+            const article = await Article.findByTitle(req.params.title);
+            console.log(article);
+
+            console.log(article.author, req.user.username)
+
+            if(article.author != req.user.username){
+                return res.status(401).send({message : "Not Authorized"});
+            }
+
             const data = await Article.deleteArticleByTitle(req.params.title);
             
             
@@ -96,17 +114,19 @@ const ArticleController = (Article) => {
         
         console.log("requested data:",req.body.title);
         
-        if(!req.body.title || !req.body.description || !req.body.author){
+        if(!req.body.title || !req.body.description){
             return res.status(400).send({
                 message: "Request body needs to be updated!"
             });
         }
+
+        // console.log("Requested by: " + req.user.username);
         
         // create article
         const article = {
             title: req.body.title,
             description: req.body.description,
-            author: req.body.author,
+            author: req.user.username,
         };
         
         console.log("requested data:", article);

@@ -1,11 +1,15 @@
-const express = require('express');
 const Article = require('../model/Article');
-const router = express.Router();
+const Author = require('../model/Author');
+const router = require('express').Router();
+const jwt = require('jsonwebtoken');
+const bcrypt = require("bcryptjs");
 
 const articleController = require("../controller/ArticleController")(Article);
+const authController = require("../controller/AuthController")(Author, jwt, bcrypt)
+const auth = require("../middleware/Auth")(jwt);
 
 
-router.get("/", (req, res)=> {
+router.get("/", auth, (req, res)=> {
     res.json("HELLO from EXPRESS!");
 });
 
@@ -16,8 +20,8 @@ router
         next();
     })
     .get(articleController.getArticles )
-    .post(articleController.createArticle )
-    .delete(articleController.deleteArticles);
+    .post(auth, articleController.createArticle )
+    .delete(auth, articleController.deleteArticles);
 
 router
     .route("/articles/:title") 
@@ -25,8 +29,37 @@ router
         res.setHeader("Request-Time", new Date());
         next();
     })  
-    .get( articleController.getArticleByTitle)
-    .put( articleController.updateArticleByTitle)
-    .delete(articleController.deleteArticleByTitle);
+    .get(articleController.getArticleByTitle)
+    .put(auth, articleController.updateArticleByTitle)
+    .delete(auth, articleController.deleteArticleByTitle);
+
+
+router
+    .route("/login")
+    .all((req, res, next)=>{
+
+        next();
+    })
+    .post(authController.signin)
+
+router
+    .route("/signup")
+    .all((req, res, next) => {
+        
+        next();
+    })
+    .post(authController.signup);
+
+
+router.use("*", (req, res) => {
+    res.status(404).json({
+        success: "false",
+        message: "Page not found",
+        error: {
+            statusCode: 404,
+            message: "You reached a route that is not defined on this server",
+        },
+    });
+});
 
 module.exports = router;

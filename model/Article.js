@@ -7,6 +7,7 @@ const Article = function(article){
   this.author = article.author;
 }
 
+
 const articles = [{
   title: "A day to remember",
   description: "Pregato vostro che manifestamente dio a oppinione di, tal principio cosa potra cosí di allo, riguardando siamo le e nel.",
@@ -30,8 +31,8 @@ Article.create = (article) => {
       }
       
       // request success
-      console.log("created article: ", { id: res.insertId, ...article });
-      return resolve({ id: res.insertId, ...article });
+      console.log("created article: ", {res:res, ...article });
+      return resolve({ ...article });
 
     });
   });
@@ -41,9 +42,9 @@ Article.findByTitle = (title) => {
   return new Promise( (resolve, reject) => {
 
       console.log("searching with title : "+title);
-      console.log("QUERY STRING:", `SELECT * FROM Articles WHERE title = ${title}`);
+      console.log("QUERY STRING:", `SELECT * FROM Articles WHERE title = `);
 
-    sql.query(`SELECT * FROM Articles WHERE title = ${title}`,  (err, res)=> {
+    sql.query(`SELECT * FROM Articles WHERE title = ?`, title,  (err, res)=> {
       if(err){
         // handle the error
         console.log("Error happened finding :", title, err);
@@ -51,8 +52,8 @@ Article.findByTitle = (title) => {
       }
       
       // request success
-      console.log("article found: ", { res: res.affectedRows });
-      return resolve({"Total delected" : res.affectedRows});
+      console.log("article found: ", { res: res });
+      return resolve(res[0]);
 
     });
   });
@@ -65,16 +66,16 @@ Article.updateByTitle = (title, article) => {
 
 
     sql.query("UPDATE Articles SET title = ?, description = ?, author = ? WHERE title = ?", 
-    [article.title, article.description, article.author, title],  (err, res)=> {
+    [title, article.description, article.author, title],  (err, res)=> {
       if(err){
         // handle the error
-        console.log("Error happened while updating :", title, err);
+        console.log("Error occured while updating :", title, err);
         return reject(err);
       }
       
       // request success
       console.log("article updated: ", { res: res });
-      return resolve({"Updated" : res});
+      return resolve(res);
 
     });
   });
@@ -85,7 +86,7 @@ Article.deleteArticleByTitle = (title) => {
 
       console.log("deleting with title : '"+title+"'");
 
-    sql.query(`DELETE FROM Articles WHERE title = ${title}`,  (err, res)=> {
+    sql.query(`DELETE FROM Articles WHERE title = ?`, title,  (err, res)=> {
       if(err){
         // handle the error
         console.log("Error happened deleting :", title, err);
@@ -94,7 +95,7 @@ Article.deleteArticleByTitle = (title) => {
       
       // request success
       console.log("article deleted: ", { res: res });
-      return resolve(res);
+      return resolve("Deleted");
 
     });
   });
@@ -112,17 +113,19 @@ Article.findALL =  () => {
 
       console.log("Retrived Articles:\n", res);
 
-      res = res.map((article)=>{return {title: article.title, description: article.description, author:article.author }})
+      // res = res.map((article)=>{return {title: article.title, description: article.description, author:article.author }})
       
       return resolve(res);
     });
   });
 };
 
-Article.deleteALL =  () => {
+Article.deleteALL =  (author) => {
   return new Promise((resolve, reject) => {
+
+    console.log("deleting all the article owned by:", author);
     
-    sql.query("DELETE FROM Articles", (err, res)=> {
+    sql.query("DELETE FROM Articles WHERE author = ?", author, (err, res)=> {
       if(err){
         // handle the error
         console.log("Unable to delete articles ", err);
@@ -136,3 +139,9 @@ Article.deleteALL =  () => {
 };
 
 module.exports = Article;
+
+// create table Articles(
+//     title varchar(100) primary key,
+//     description varchar(500)not null,
+//     author varchar(100) not null 
+// )
