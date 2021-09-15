@@ -14,18 +14,26 @@ const AuthController = (Author, jwt, bcrypt) => {
             // Validate if user exist in our database
             const author = await Author.getAuthor(email);
 
-            if (author && (await bcrypt.compare(password, user.password))) {
-                // // Create token
+            if (author && (await bcrypt.compare(password, author.password))) {
+                // sign/generate JWT token for this author
                 const token = jwt.sign(
-                    { username: auth.name, email },
-                    process.env.TOKEN_KEY,
                     {
-                    expiresIn: "24h",
+                        username: author.name, 
+                        email: author.email
+                    }, 
+                    process.env.ACCESS_TOKEN_SECRET,
+                    { 
+                        algorithm: "HS256",
+                        expiresIn: process.env.ACCESS_TOKEN_LIFE
                     }
                 );
 
-                // save user token
-                user.token = token;
+
+                // send token as body parameter
+                author.token = token;
+            
+                // send token as cookie 
+                res.cookie("jwt", token, {secure: true, httpOnly: true})
 
                 // user
                 res.status(200).json(user);

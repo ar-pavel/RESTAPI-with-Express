@@ -20,8 +20,8 @@ router
         next();
     })
     .get(articleController.getArticles )
-    .post(articleController.createArticle )
-    .delete(articleController.deleteArticles);
+    .post(auth, articleController.createArticle )
+    .delete(auth, articleController.deleteArticles);
 
 router
     .route("/articles/:title") 
@@ -29,15 +29,16 @@ router
         res.setHeader("Request-Time", new Date());
         next();
     })  
-    .get( articleController.getArticleByTitle)
-    .put( articleController.updateArticleByTitle)
-    .delete(articleController.deleteArticleByTitle);
+    .get(articleController.getArticleByTitle)
+    .put(auth, articleController.updateArticleByTitle)
+    .delete(auth, articleController.deleteArticleByTitle);
 
 
 router
     .route("/login")
     .all((req, res, next)=>{
 
+        next();
     })
     .post(authController.signin)
 
