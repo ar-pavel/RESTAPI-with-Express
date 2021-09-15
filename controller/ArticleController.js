@@ -58,6 +58,13 @@ const ArticleController = (Article) => {
             const tmp = await Article.findByTitle(req.params.title);
             console.log("Data found:", tmp);
 
+            console.log(article.author, req.user.username)
+
+            if(article.author != req.user.username){
+                return res.status(401).send({message : "Not Authorized"});
+            }
+
+
             const data = await Article.updateByTitle(req.params.title, article);
             
             return res.status(200).send(data);
