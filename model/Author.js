@@ -22,7 +22,7 @@ Author.getAuthor = (email)=>{
             
             // request success
             console.log("autor found: ", { author: res });
-            return resolve(res);
+            return resolve(res[0]);
     
         });
     });
