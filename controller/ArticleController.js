@@ -1,3 +1,4 @@
+const FORMAT = require("../utils/converter");
 
 const ArticleController = (Article) => { 
 
@@ -6,7 +7,19 @@ const ArticleController = (Article) => {
             const data = await Article.findALL();
             
             res.status(200);
-            return res.send(data);
+            // return res.send(data);
+
+
+            res.format({
+                html: function (){
+                    res.send(FORMAT().html(data))
+                },
+                json: function(){
+                    res.json(data);
+                }
+
+            });
+
             
         }catch(err){
             // request can't be processed
@@ -22,7 +35,7 @@ const ArticleController = (Article) => {
             const data = await Article.deleteALL(req.user.username);
             
             res.status(204);
-            return res.send(data);
+            return res.send("Deleted");
             
         }catch(err){
             // request can't be processed
@@ -35,9 +48,24 @@ const ArticleController = (Article) => {
     async function getArticleByTitle(req, res) { 
         try{
             const data = await Article.findByTitle(req.params.title);
+
+            if(!data){
+                return res.status(204).send("No content")
+            }
+
+            console.log("Searched data:", data);
+            
             
             res.status(200);
-            return res.send(data);
+            
+            res.format({
+                html: function (){
+                    res.send(FORMAT().html(data));
+                },
+                json: function(){
+                    res.json(data);
+                }
+            });
             
         }catch(err){
             // request can't be processed
@@ -68,7 +96,17 @@ const ArticleController = (Article) => {
 
             const data = await Article.updateByTitle(req.params.title, article);
             
-            return res.status(200).send(data);
+            res.status(200);
+            
+            res.format({
+                html: function (){
+                    res.send(FORMAT().html(data))
+                },
+                json: function(){
+                    res.json(data);
+                }
+
+            });
          
             
         }catch(err){
