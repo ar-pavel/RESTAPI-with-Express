@@ -12,12 +12,20 @@ const ArticleController = (Article) => {
 
             res.format({
                 html: function (){
-                    res.send(FORMAT().html(data))
+                    res.send(FORMAT(data).html());
+                }, 
+                csv: function (){
+                    res.send(FORMAT(data).csv());
+                },
+                xml: function (){
+                    res.send(FORMAT(data).xml());
+                },
+                text: function (){
+                    res.send(FORMAT(data).text());
                 },
                 json: function(){
                     res.json(data);
-                }
-
+                },
             });
 
             
@@ -60,11 +68,20 @@ const ArticleController = (Article) => {
             
             res.format({
                 html: function (){
-                    res.send(FORMAT().html(data));
+                    res.send(FORMAT(data).html());
+                }, 
+                csv: function (){
+                    res.send(FORMAT(data).csv());
+                },
+                xml: function (){
+                    res.send(FORMAT(data).xml());
+                },
+                text: function (){
+                    res.send(FORMAT(data).text());
                 },
                 json: function(){
                     res.json(data);
-                }
+                },
             });
             
         }catch(err){
@@ -100,12 +117,20 @@ const ArticleController = (Article) => {
             
             res.format({
                 html: function (){
-                    res.send(FORMAT().html(data))
+                    res.send(FORMAT(data).html());
+                }, 
+                csv: function (){
+                    res.send(FORMAT(data).csv());
+                },
+                xml: function (){
+                    res.send(FORMAT(data).xml());
+                },
+                text: function (){
+                    res.send(FORMAT(data).text());
                 },
                 json: function(){
                     res.json(data);
-                }
-
+                },
             });
          
             
@@ -173,7 +198,25 @@ const ArticleController = (Article) => {
         try{
             const data  = await Article.create(article);
             if(data){
-                return res.status(201).send(data);
+                // return res.status(201).send(data);
+                res.status(201);
+                res.format({
+                    html: function (){
+                        res.send(FORMAT(data).html());
+                    }, 
+                    csv: function (){
+                        res.send(FORMAT(data).csv());
+                    },
+                    xml: function (){
+                        res.send(FORMAT(data).xml());
+                    },
+                    plain: function (){
+                        res.send(FORMAT(data).text());
+                    },
+                    json: function(){
+                        res.json(data);
+                    },
+                });
             } 
             return res.status(500).send({
                 message:
