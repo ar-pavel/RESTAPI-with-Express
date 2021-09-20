@@ -24,14 +24,14 @@ router
     .delete(auth, articleController.deleteArticles);
 
 router
-    .route("/articles/:title") 
+    .route("/articles/:id") 
     .all((req, res, next) => {
         res.setHeader("Request-Time", new Date());
         next();
     })  
-    .get(articleController.getArticleByTitle)
-    .put(auth, articleController.updateArticleByTitle)
-    .delete(auth, articleController.deleteArticleByTitle);
+    .get(articleController.getArticleByID)
+    .put(auth, articleController.updateArticleByID)
+    .delete(auth, articleController.deleteArticleByID);
 
 
 router
