@@ -14,8 +14,10 @@ const AuthController = (Author, jwt, bcrypt) => {
             // Validate if user exist in our database
             const author = await Author.getAuthor(email);
 
+
             if (author && (await bcrypt.compare(password, author.password))) {
                 // sign/generate JWT token for this author
+                console.log("Credential matched.")
                 const token = jwt.sign(
                     {
                         username: author.name, 
@@ -36,11 +38,12 @@ const AuthController = (Author, jwt, bcrypt) => {
                 res.cookie("jwt", token, {secure: true, httpOnly: true})
 
                 // user
-                res.status(200).json(user);
+                res.status(200).json(author);
+            }else{
+                
+                res.status(400).send("Invalid Credentials");
             }
-
-            res.status(400).send("Invalid Credentials");
-
+                
         }catch(error){
             console.log(error);
             return res.status(500).send("Internal server error");
