@@ -2,6 +2,7 @@ const sql = require("./DB");
 
 // constructor
 const Article = function(article){
+  this.id = article.id;
   this.title = article.title;
   this.description = article.description;
   this.author = article.author;
@@ -38,6 +39,26 @@ Article.create = (article) => {
   });
 };
 
+Article.findByID = (id) => {
+  return new Promise( (resolve, reject) => {
+
+      console.log("searching with id : "+id);
+
+    sql.query(`SELECT * FROM Articles WHERE id = ?`, id,  (err, res)=> {
+      if(err){
+        // handle the error
+        console.log("Error happened finding :", id, err);
+        return reject(err);
+      }
+      
+      // request success
+      console.log("article found: ", { res: res });
+      return resolve(res[0]);
+
+    });
+  });
+};
+
 Article.findByTitle = (title) => {
   return new Promise( (resolve, reject) => {
 
@@ -53,7 +74,28 @@ Article.findByTitle = (title) => {
       
       // request success
       console.log("article found: ", { res: res });
-      return resolve(res[0]);
+      return resolve(res);
+
+    });
+  });
+};
+
+Article.updateByID = (id, article) => {
+  return new Promise( (resolve, reject) => {
+
+    console.log("updating with id : "+id, "and body :", article);
+
+    sql.query("UPDATE Articles SET title = ?, description = ?, author = ? WHERE id = ?", 
+    [article.title, article.description, article.author, id],  (err, res)=> {
+      if(err){
+        // handle the error
+        console.log("Error occured while updating :", id, err);
+        return reject(err);
+      }
+      
+      // request success
+      console.log("article updated: ", { res: res });
+      return resolve(article);
 
     });
   });
@@ -76,6 +118,26 @@ Article.updateByTitle = (title, article) => {
       // request success
       console.log("article updated: ", { res: res });
       return resolve(article);
+
+    });
+  });
+};
+
+Article.deleteArticleByID = (id) => {
+  return new Promise( (resolve, reject) => {
+
+      console.log("deleting with id : '"+id);
+
+    sql.query(`DELETE FROM Articles WHERE id = ?`, id,  (err, res)=> {
+      if(err){
+        // handle the error
+        console.log("Error happened deleting :", id, err);
+        return reject(err);
+      }
+      
+      // request success
+      console.log("article deleted: ", { res: res });
+      return resolve("Deleted");
 
     });
   });
