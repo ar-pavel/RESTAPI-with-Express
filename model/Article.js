@@ -75,7 +75,7 @@ Article.updateByTitle = (title, article) => {
       
       // request success
       console.log("article updated: ", { res: res });
-      return resolve(res);
+      return resolve(article);
 
     });
   });
