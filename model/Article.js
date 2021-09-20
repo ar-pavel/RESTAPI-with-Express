@@ -2,7 +2,7 @@ const sql = require("./DB");
 
 // constructor
 const Article = function(article){
-  this.id = article.id;
+  this.uuid = article.id;
   this.title = article.title;
   this.description = article.description;
   this.author = article.author;
@@ -44,7 +44,7 @@ Article.findByID = (id) => {
 
       console.log("searching with id : "+id);
 
-    sql.query(`SELECT * FROM Articles WHERE id = ?`, id,  (err, res)=> {
+    sql.query(`SELECT * FROM Articles WHERE uuid = ?`, id,  (err, res)=> {
       if(err){
         // handle the error
         console.log("Error happened finding :", id, err);
@@ -85,7 +85,7 @@ Article.updateByID = (id, article) => {
 
     console.log("updating with id : "+id, "and body :", article);
 
-    sql.query("UPDATE Articles SET title = ?, description = ?, author = ? WHERE id = ?", 
+    sql.query("UPDATE Articles SET title = ?, description = ?, author = ? WHERE uuid = ?", 
     [article.title, article.description, article.author, id],  (err, res)=> {
       if(err){
         // handle the error
@@ -128,7 +128,7 @@ Article.deleteArticleByID = (id) => {
 
       console.log("deleting with id : '"+id);
 
-    sql.query(`DELETE FROM Articles WHERE id = ?`, id,  (err, res)=> {
+    sql.query(`DELETE FROM Articles WHERE uuid = ?`, id,  (err, res)=> {
       if(err){
         // handle the error
         console.log("Error happened deleting :", id, err);
@@ -207,3 +207,27 @@ module.exports = Article;
 //     description varchar(500)not null,
 //     author varchar(100) not null 
 // )
+
+/*
+// create mysql table using these commands 
+
+CREATE TABLE Articles (
+    uuid char(36) NULL,
+    title varchar(100) NOT NULL,
+    description varchar(500) NOT NULL,
+    author varchar(100) NOT NULL 
+);
+
+DELIMITER ;;
+CREATE TRIGGER before_insert_Articles
+BEFORE INSERT ON Articles
+FOR EACH ROW
+BEGIN
+  IF new.uuid IS NULL THEN
+    SET new.uuid = uuid();
+  END IF;
+END
+;;
+
+
+*/
