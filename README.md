@@ -1,16 +1,16 @@
 # RESTAPI-with-Express
 
-A NodeJS based RestAPI with authentication and authorization that support content-negotiation
+A NodeJS based RestAPI implementation with authentication & authorization and also able to serve multiple formats of response data with content-negotiation
 
 ## Quick start
 
 1.  **Get to the workplace.**
 
-    After clong this repository navigate into your api directory and load it in IDE/Editor
+    After clong this repository navigate into your api directory and load it in your IDE/Editor
 
     ```shell
     cd directory_name
-    code .
+    code .  #to open in vscode
     ```
 
 2.  **Open the source code and start editing**
