@@ -9,7 +9,9 @@ app.use(express.json());
 
 app.use(routes)
 
-// set port, listen for requests
-const PORT = process.env.PORT || 8081;
+// set port, listen for requests (no port for testing, only in production)
+const PORT = process.env.PORT ? process.env.PORT : null;;
 
-app.listen(PORT, ()=> console.log("SERVER IS RUNNING AT PORT:", PORT));
+app.server =app.listen(PORT, ()=> console.log("SERVER IS RUNNING AT PORT:", PORT));
+
+module.exports = app;
