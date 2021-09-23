@@ -33,7 +33,7 @@ const FORMAT = (data) => {
                                     '<td>' + article.title + '</td>' +  
                                     '<td>' + article.description + '</td>' +
                                     '<td>' + article.author + '</td>' +
-                                '<tr/>' ;
+                                '</tr>' ;
         
                     }).join('') 
                     + '</tbody>'
