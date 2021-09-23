@@ -110,8 +110,13 @@ const FORMAT = (data) => {
 
        
     }
+
+    function json (){
+        
+        return JSON.stringify(data);
+    }
     
-    return {html, xml, text, csv};
+    return {html, xml, text, csv, json};
 }
 
 module.exports = FORMAT;
