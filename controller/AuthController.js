@@ -3,13 +3,13 @@ const AuthController = (Author, jwt, bcrypt) => {
     async function signin(req, res){
         try{
 
+            // Validate user input
+            if (req.body.email===undefined || req.body.password===undefined) {
+                return res.status(400).send("All inputs are required");
+            }
             // Get user input
             const { email, password } = req.body;
             
-            // Validate user input
-            if (!(email && password)) {
-                res.status(400).send("All input is required");
-            }
 
             // Validate if user exist in our database
             const author = await Author.getAuthor(email);
@@ -38,10 +38,10 @@ const AuthController = (Author, jwt, bcrypt) => {
                 res.cookie("jwt", token, {secure: true, httpOnly: true})
 
                 // user
-                res.status(200).json(author);
+                return res.status(200).json(author);
             }else{
                 
-                res.status(400).send("Invalid Credentials");
+                return res.status(401).send("Invalid Credentials");
             }
                 
         }catch(error){
@@ -55,16 +55,17 @@ const AuthController = (Author, jwt, bcrypt) => {
 
         try{
 
+            // Validate user input
+            if (req.body.email===undefined || req.body.password===undefined || req.body.name===undefined) {
+                return res.status(400).send("All inputs are required");
+            }
+
             let author = { name:req.body.name, password: req.body.password, email: req.body.email};
             
             author.email = author.email.toLowerCase(); 
 
             console.log("request data: " + JSON.stringify(author));
 
-            // Validate user input
-            if (!(author.email && author.password && author.name)) {
-                res.status(400).send("All inputs are required");
-            }
             
             // check if user already exist
             // Validate if user exist in the database
@@ -81,10 +82,10 @@ const AuthController = (Author, jwt, bcrypt) => {
 
             author.password=encryptedPassword;
 
-            console.log("Hashed password: " + encryptedPassword);
+            // console.log("Hashed password: " + encryptedPassword);
 
             const data = await Author.create(author);
-            console.log("Author created data:", data);
+            // console.log("Author created data:", data);
 
             
             // sign/generate JWT token for this author
@@ -100,17 +101,17 @@ const AuthController = (Author, jwt, bcrypt) => {
                 }
             );
 
-            console.log("JWT TOKEN : " + token);
+            // console.log("JWT TOKEN : " + token);
             
             // send token as body parameter
             author.token = token;
             
             // send token as cookie 
             res.cookie("jwt", token, {secure: true, httpOnly: true})
-            res.send(author);
+            return res.status(201).send(author);
 
         }catch(error){
-            console.log(error);
+            // console.log(error);
             return res.status(500).send("Internal server error");
         }
 
