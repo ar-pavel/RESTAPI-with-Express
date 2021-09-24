@@ -11,6 +11,9 @@ const ArticleController = (Article) => {
 
 
             res.format({
+                json: function(){
+                    res.json(data);
+                },
                 html: function (){
                     res.send(FORMAT(data).html());
                 }, 
@@ -22,9 +25,6 @@ const ArticleController = (Article) => {
                 },
                 text: function (){
                     res.send(FORMAT(data).text());
-                },
-                json: function(){
-                    res.json(data);
                 },
             });
 
@@ -212,30 +212,6 @@ const ArticleController = (Article) => {
         }
     } 
     
-    async function deleteArticleByTitle(req, res) { 
-        try{
-            
-            const article = await Article.findByTitle(req.params.title);
-            console.log(article);
-
-            console.log(article.author, req.user.username)
-
-            if(article.author != req.user.username){
-                return res.status(401).send({message : "Not Authorized"});
-            }
-
-            const data = await Article.deleteArticleByTitle(req.params.title);
-            
-            
-            return res.status(200).send(data);
-            
-        }catch(err){
-            // request can't be processed
-            console.log(err);
-            return res.status(500).send({message: "Internal Server Error"});
-        }
-    }
-    
     async function createArticle(req, res) {
         
         // request validation
@@ -247,7 +223,7 @@ const ArticleController = (Article) => {
         
         console.log("requested data:",req.body.title);
         
-        if(!req.body.title || !req.body.description){
+        if(req.body.title===undefined || req.body.description===undefined){
             return res.status(400).send({
                 message: "Request body needs to be updated!"
             });
@@ -272,6 +248,9 @@ const ArticleController = (Article) => {
                 // return res.status(201).send(data);
                 res.status(201);
                 res.format({
+                    json: function(){
+                        res.json(data);
+                    },
                     html: function (){
                         res.send(FORMAT(data).html());
                     }, 
@@ -284,27 +263,23 @@ const ArticleController = (Article) => {
                     plain: function (){
                         res.send(FORMAT(data).text());
                     },
-                    json: function(){
-                        res.json(data);
-                    },
+                });
+            }else{               
+                return res.status(500).send({
+                    message:
+                    err.message || "Some error occurred while creating the Article."
                 });
             }
-
-            return res.status(500).send({
-                message:
-                err.message || "Some error occurred while creating the Article."
-            });
             
         }catch(err){
             return res.status(400).send({
-                message:
-                err.message || "Some error occurred while creating the Article."
+                message: err.message || "Some error occurred while creating the Article."
             });
         }
         
     }
     
-    return {getArticles, createArticle, getArticleByTitle, getArticleByID, deleteArticleByTitle, deleteArticleByID, deleteArticles, updateArticleByID};
+    return {getArticles, createArticle, getArticleByTitle, getArticleByID,  deleteArticleByID, deleteArticles, updateArticleByID};
 };
 
 module.exports = ArticleController
