@@ -34,8 +34,6 @@ module.exports = async (reset=false)=>{
         }
         console.log("Articles table created");   
         
-        let qry = "DELIMITER ;;"
-        
     }); 
 
     
@@ -69,10 +67,16 @@ module.exports = async (reset=false)=>{
                 return err;
             }
         })
+    }).then( ()=>{
+        let sql_query = "DELIMITER ;";
+
+        sql.query(sql_query, (err, res)=>{
+            if(err){
+                return err;
+            }
+        })
     }).catch( err => console.log(err));
 
-   
-
-    return "Database Setup Successfull.";
+    console.log("Database Setup Successfull.");
 
 }
