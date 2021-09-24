@@ -2,11 +2,12 @@
   "name": "rest-api_with_auth_and_content_negotiation",
   "version": "1.0.0",
   "description": "Node.js Restful CRUD API with Node.js, Express and MySQL",
-  "main": "app.js",
+  "main": "index.js",
   "scripts": {
-    "start": "node app.js",
-    "dev": "nodemon app.js",
-    "test": "jest --coverage"
+    "start": "node index.js",
+    "dev": "NODE_ENV=dev nodemon index.js",
+    "test": "NODE_ENV=test jest --testTimeout=10000",
+    "coverage": "jest --coverage"
   },
   "author": "ar-pavel",
   "license": "MIT",
