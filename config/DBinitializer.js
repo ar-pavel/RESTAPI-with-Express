@@ -39,15 +39,39 @@ module.exports = async (reset=false)=>{
     }); 
 
     
-    sql_query = "create table Authors( email varchar(100) primary key,name varchar(255)not null,password varchar(255) not null )";
-    sql.query(sql_query, (err, res)=>{
-        if(err){
-            console.log("couldn't create table Author");
-            console.log(err);
-        }
-        console.log("Author table created");   
-                
-    });
+    
+    let prom = new Promise((resolve, reject)=>{
+        let sql_query = "create table Authors( email varchar(100) primary key,name varchar(255)not null,password varchar(255) not null )";
+        sql.query(sql_query, (err, res)=>{
+            if(err){
+                console.log("couldn't create table Author");
+                reject(err);
+            }
+            console.log("Author table created");   
+            resolve();
+        })
+    }); 
+
+    prom.then( ()=>{
+        let sql_query = "DELIMITER ;;";
+
+        sql.query(sql_query, (err, res)=>{
+            if(err){
+                return err;
+            }
+            resolve();
+        })
+    }).then(()=>{
+        let sql_query = "CREATE TRIGGER before_insert_Articles BEFORE INSERT ON Articles FOR EACH ROW BEGIN IF new.uuid IS NULL THEN SET new.uuid = uuid(); END IF; END ;;"
+
+        sql.query(sql_query, (err, res)=>{
+            if(err){
+                return err;
+            }
+        })
+    }).catch( err => console.log(err));
+
+   
 
     return "Database Setup Successfull.";
 
