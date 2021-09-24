@@ -1,10 +1,15 @@
 const request = require('supertest');
 const app = require('../app')
 const DBinitializer = require("../config/DBinitializer")
+const DBconnection = require("../model/DB")
 
 beforeAll( ()=>{
     return DBinitializer(true);
 });
+
+afterAll( ()=>{
+    return DBconnection.end();
+} );
 
 describe('/', () => {
     describe('GET', () => {
@@ -105,6 +110,7 @@ describe('/login', () => {
             console.log(res.statusCode);
 
             expect(res.statusCode).toBe(200);
+            expect(res.body.token).toBeDefined();
 
         })
 
