@@ -2,6 +2,42 @@
 
 A NodeJS based RestAPI implementation with authentication & authorization and also able to serve multiple formats of response data with content-negotiation
 
+## Quick Overview
+
+- **API ENDPOINTS**
+
+  **_/articles_**
+
+      Operations Supports:
+                              POST
+                              PUT
+                              GET
+                              DELETE
+
+  **_/articles/:id_**
+
+      Operations Supports:
+                              PUT
+                              GET
+                              DELETE
+
+  **_/signup_**
+
+      Operations Supports:
+                              POST
+
+  **_/login_**
+
+      Operations Supports:
+                              POST
+
+- **Types of Content Serves**
+
+          Accept: application/json
+          Accept: text/html
+          Accept: text/xml
+          Accept: text/csv
+
 ## Quick start
 
 1.  **Get to the workplace.**
@@ -23,6 +59,8 @@ A NodeJS based RestAPI implementation with authentication & authorization and al
       npm install
       npm run dev #run with nodemon for auto reload
       npm start #default starter
+      npm run test #run test cases
+      npm run coverage #run test cases with coverages
       ```
 
     By default this server will be running at `http://localhost:8084`!
