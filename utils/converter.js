@@ -59,7 +59,6 @@ const FORMAT = (data) => {
                     }).join('') 
                     + '</root>'
         
-        return data;
 
     }
 
