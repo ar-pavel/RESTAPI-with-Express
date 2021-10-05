@@ -8,6 +8,7 @@ const articleController = require("../controller/ArticleController")(Article);
 Article.findALL = jest.fn();
 Article.findByID = jest.fn();
 Article.create = jest.fn();
+Article.updateByID = jest.fn();
 Article.deleteArticleByID = jest.fn();
 
 // clearing mock call counts etc.
@@ -38,9 +39,16 @@ describe('Article controller unit test', () => {
         expect(Article.create).toHaveBeenCalledTimes(0)
     })
 
+    test('should not be able to update without proper authorization', async () => {
+        const  data = await articleController.updateArticleByID(req, res)
+      
+        expect(Article.updateByID).toHaveBeenCalledTimes(0)
+
+    })
+    
     test('should not be able to delete without proper authorization', async () => {
         const  data = await articleController.deleteArticleByID(req, res)
-      
+
         expect(Article.deleteArticleByID).toHaveBeenCalledTimes(0)
 
     })
