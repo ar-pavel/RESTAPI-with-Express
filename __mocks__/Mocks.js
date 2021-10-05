@@ -21,5 +21,28 @@ exports.author = {
     password: "right@password", 
     email: "test@demo.email"
 };
-  
 
+let res={};
+res.status = () => res;
+res.send = () => res;
+res.format = () => res;
+
+
+exports.res = res;
+
+const req = {
+  params: {
+    id: "valid",
+  },
+  request: {
+    header: {
+      accept: "*/*",
+    },
+    body: undefined,
+  },
+  state: {},
+  body: undefined,
+  status: undefined,
+};
+
+exports.req = req;
