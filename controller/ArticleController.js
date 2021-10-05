@@ -93,44 +93,6 @@ const ArticleController = (Article) => {
         }
     }     
     
-    async function getArticleByTitle(req, res) { 
-        try{
-            const data = await Article.findByTitle(req.params.title);
-
-            if(!data){
-                return res.status(204).send("No content")
-            }
-
-            console.log("Searched data:", data);
-            
-            
-            res.status(200);
-            
-            res.format({
-                html: function (){
-                    res.send(FORMAT(data).html());
-                }, 
-                csv: function (){
-                    res.send(FORMAT(data).csv());
-                },
-                xml: function (){
-                    res.send(FORMAT(data).xml());
-                },
-                text: function (){
-                    res.send(FORMAT(data).text());
-                },
-                json: function(){
-                    res.json(data);
-                },
-            });
-            
-        }catch(err){
-            // request can't be processed
-            console.log(err);
-            res.status(500);
-            return res.send("Internal Server Error");
-        }
-    } 
     
     async function updateArticleByID(req, res) { 
         try{
@@ -279,7 +241,7 @@ const ArticleController = (Article) => {
         
     }
     
-    return {getArticles, createArticle, getArticleByTitle, getArticleByID,  deleteArticleByID, deleteArticles, updateArticleByID};
+    return {getArticles, createArticle,  getArticleByID,  deleteArticleByID, deleteArticles, updateArticleByID};
 };
 
 module.exports = ArticleController

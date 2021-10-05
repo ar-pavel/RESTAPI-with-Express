@@ -8,7 +8,6 @@ const Article = function(article){
   this.author = article.author;
 }
 
-
 const articles = [{
   title: "A day to remember",
   description: "Pregato vostro che manifestamente dio a oppinione di, tal principio cosa potra cosí di allo, riguardando siamo le e nel.",
@@ -59,26 +58,6 @@ Article.findByID = (id) => {
   });
 };
 
-Article.findByTitle = (title) => {
-  return new Promise( (resolve, reject) => {
-
-      console.log("searching with title : "+title);
-      console.log("QUERY STRING:", `SELECT * FROM Articles WHERE title = `);
-
-    sql.query(`SELECT * FROM Articles WHERE title = ?`, title,  (err, res)=> {
-      if(err){
-        // handle the error
-        console.log("Error happened finding :", title, err);
-        return reject(err);
-      }
-      
-      // request success
-      console.log("article found: ", { res: res });
-      return resolve(res);
-
-    });
-  });
-};
 
 Article.updateByID = (id, article) => {
   return new Promise( (resolve, reject) => {
@@ -101,27 +80,6 @@ Article.updateByID = (id, article) => {
   });
 };
 
-Article.updateByTitle = (title, article) => {
-  return new Promise( (resolve, reject) => {
-
-    console.log("updating with title : "+title, "and body :", article);
-
-
-    sql.query("UPDATE Articles SET title = ?, description = ?, author = ? WHERE title = ?", 
-    [title, article.description, article.author, title],  (err, res)=> {
-      if(err){
-        // handle the error
-        console.log("Error occured while updating :", title, err);
-        return reject(err);
-      }
-      
-      // request success
-      console.log("article updated: ", { res: res });
-      return resolve(article);
-
-    });
-  });
-};
 
 Article.deleteArticleByID = (id) => {
   return new Promise( (resolve, reject) => {
@@ -132,26 +90,6 @@ Article.deleteArticleByID = (id) => {
       if(err){
         // handle the error
         console.log("Error happened deleting :", id, err);
-        return reject(err);
-      }
-      
-      // request success
-      console.log("article deleted: ", { res: res });
-      return resolve("Deleted");
-
-    });
-  });
-};
-
-Article.deleteArticleByTitle = (title) => {
-  return new Promise( (resolve, reject) => {
-
-      console.log("deleting with title : '"+title+"'");
-
-    sql.query(`DELETE FROM Articles WHERE title = ?`, title,  (err, res)=> {
-      if(err){
-        // handle the error
-        console.log("Error happened deleting :", title, err);
         return reject(err);
       }
       
