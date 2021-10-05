@@ -39,28 +39,23 @@ describe('util/converter', ()=>{
 
     }); 
     
-    test('should convert the data to HTML from json (arrya of objects)', async () => {
+    test('should convert the data to XML from json (arrya of objects)', async () => {
 
-        const shouldbe =  '<table>' 
-                    + '<thead>'
-                        + '<tr>' 
-                            + Object.keys(articles[0]).map((col) => {
-                                return  '<th>' + col + '</th>'
-                            }).join('')
-                        + '</tr>'
-                    + '</thead>'
-                    + '<tbody>'
-                    + articles.map( (article) => {
-                        return '<tr>' + 
-                                    '<td>' + article.title + '</td>' +  
-                                    '<td>' + article.description + '</td>' +
-                                    '<td>' + article.author + '</td>' +
-                                '</tr>' ;
+        const shouldbe =  '<root>'                    
+        + articles.map( (article) => {
+            let keys = Object.keys(article);
+
+            return '<row>' + 
+                        keys.map(key => {
+                            return `<${key}>` + article[key] + `</${key}>` 
+                            
+                        })+
+                    '</row>' ;
+
+        }).join('') 
+        + '</root>';
         
-                    }).join('') 
-                    + '</tbody>';
-        
-        expect(FORMAT(articles).html()).toBe(shouldbe);
+        expect(FORMAT(articles).xml()).toBe(shouldbe);
 
     });
         
