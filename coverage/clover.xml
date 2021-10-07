@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<coverage generated="1633432476158" clover="3.2.0">
-  <project timestamp="1633432476158" name="All files">
-    <metrics statements="333" coveredstatements="231" conditionals="85" coveredconditionals="49" methods="94" coveredmethods="60" elements="512" coveredelements="340" complexity="0" loc="333" ncloc="333" packages="7" files="11" classes="11"/>
+<coverage generated="1633447706052" clover="3.2.0">
+  <project timestamp="1633447706053" name="All files">
+    <metrics statements="333" coveredstatements="233" conditionals="85" coveredconditionals="49" methods="94" coveredmethods="60" elements="512" coveredelements="342" complexity="0" loc="333" ncloc="333" packages="7" files="11" classes="11"/>
     <package name="RestAPI-with-role-based-authentication-and-content-negotiation">
       <metrics statements="6" coveredstatements="6" conditionals="0" coveredconditionals="0" methods="0" coveredmethods="0"/>
       <file name="app.js" path="/home/atikur/Documents/RestAPI-with-role-based-authentication-and-content-negotiation/app.js">
@@ -71,9 +71,9 @@
       </file>
     </package>
     <package name="RestAPI-with-role-based-authentication-and-content-negotiation.controller">
-      <metrics statements="121" coveredstatements="82" conditionals="33" coveredconditionals="27" methods="30" coveredmethods="13"/>
+      <metrics statements="121" coveredstatements="84" conditionals="33" coveredconditionals="27" methods="30" coveredmethods="13"/>
       <file name="ArticleController.js" path="/home/atikur/Documents/RestAPI-with-role-based-authentication-and-content-negotiation/controller/ArticleController.js">
-        <metrics statements="87" coveredstatements="51" conditionals="18" coveredconditionals="12" methods="27" coveredmethods="10"/>
+        <metrics statements="87" coveredstatements="53" conditionals="18" coveredconditionals="12" methods="27" coveredmethods="10"/>
         <line num="1" count="2" type="stmt"/>
         <line num="3" count="2" type="stmt"/>
         <line num="6" count="2" type="stmt"/>
@@ -112,8 +112,8 @@
         <line num="90" count="0" type="stmt"/>
         <line num="91" count="0" type="stmt"/>
         <line num="92" count="0" type="stmt"/>
-        <line num="98" count="2" type="stmt"/>
-        <line num="100" count="2" type="stmt"/>
+        <line num="98" count="3" type="stmt"/>
+        <line num="100" count="3" type="stmt"/>
         <line num="107" count="2" type="stmt"/>
         <line num="110" count="2" type="stmt"/>
         <line num="111" count="2" type="stmt"/>
@@ -128,8 +128,8 @@
         <line num="134" count="0" type="stmt"/>
         <line num="137" count="0" type="stmt"/>
         <line num="140" count="0" type="stmt"/>
-        <line num="147" count="0" type="stmt"/>
-        <line num="149" count="0" type="stmt"/>
+        <line num="147" count="1" type="stmt"/>
+        <line num="149" count="1" type="stmt"/>
         <line num="154" count="2" type="stmt"/>
         <line num="156" count="2" type="stmt"/>
         <line num="157" count="2" type="stmt"/>
