@@ -9,8 +9,9 @@ const authController = require("../controller/AuthController")(Author, jwt, bcry
 const auth = require("../middleware/Auth")(jwt);
 
 
-router.get("/", auth, (req, res)=> {
+router.get("/",  (req, res)=> {
     res.json("HELLO from EXPRESS!");
+    res.end();
 });
 
 router

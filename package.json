@@ -1,12 +1,14 @@
 {
   "name": "rest-api_with_auth_and_content_negotiation",
   "version": "1.0.0",
-  "description": "",
-  "main": "app.js",
+  "description": "Node.js Restful CRUD API with Node.js, Express and MySQL",
+  "main": "index.js",
+  "repository": "",
   "scripts": {
-    "start": "node app.js",
-    "dev": "nodemon app.js",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "start": "node index.js",
+    "dev": "NODE_ENV=dev nodemon index.js",
+    "test": "NODE_ENV=test jest --testTimeout=10000",
+    "coverage": "jest --coverage"
   },
   "author": "ar-pavel",
   "license": "MIT",
@@ -15,8 +17,18 @@
     "dotenv": "^10.0.0",
     "express": "^4.17.1",
     "jsonwebtoken": "^8.5.1",
-    "mysql": "^2.18.1",
-    "nodemon": "^2.0.12"
+    "mysql": "^2.18.1"
   },
-  "devDependencies": {}
+  "devDependencies": {
+    "jest": "^27.2.1",
+    "nodemon": "^2.0.13",
+    "supertest": "^6.1.6"
+  },
+  "jest": {
+    "testEnvironment": "node",
+    "coveragePathIgnorePatterns": [
+      "/node_modules/"
+    ],
+    "verbose": true
+  }
 }

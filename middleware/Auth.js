@@ -6,6 +6,8 @@ const Auth = (jwt)=> {
 
         console.log("body:",req.body.token ,"query:", req.query.token ,"header:", req.headers["x-access-token"]);
 
+        console.log(token);
+
         if(!token)
             return res.status(403).send("A token is required for authentication");
 

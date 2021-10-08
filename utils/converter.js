@@ -1,5 +1,3 @@
-const { json } = require("express");
-
 const FORMAT = (data) => {
 
     function toArray(data){
@@ -33,7 +31,7 @@ const FORMAT = (data) => {
                                     '<td>' + article.title + '</td>' +  
                                     '<td>' + article.description + '</td>' +
                                     '<td>' + article.author + '</td>' +
-                                '<tr/>' ;
+                                '</tr>' ;
         
                     }).join('') 
                     + '</tbody>'
@@ -61,7 +59,6 @@ const FORMAT = (data) => {
                     }).join('') 
                     + '</root>'
         
-        return data;
 
     }
 
@@ -110,8 +107,13 @@ const FORMAT = (data) => {
 
        
     }
+
+    function json (){
+        
+        return JSON.stringify(data);
+    }
     
-    return {html, xml, text, csv};
+    return {html, xml, text, csv, json};
 }
 
 module.exports = FORMAT;
