@@ -2,18 +2,23 @@ const AuthController = (Author, jwt, bcrypt) => {
 
     async function signin(req, res){
         try{
-
+            if(req.body.userName){
+                console.log("UserName:", req.body.userName);
+                req.body.email = req.body.userName;
+            }
             // Validate user input
             if (req.body.email===undefined || req.body.password===undefined) {
+                console.log("Undefined body");
                 return res.status(400).send("All inputs are required");
             }
             // Get user input
             const { email, password } = req.body;
-            
+
 
             // Validate if user exist in our database
             const author = await Author.getAuthor(email);
 
+            //console.log(password)
 
             if (author && (await bcrypt.compare(password, author.password))) {
                 // sign/generate JWT token for this author
@@ -29,7 +34,8 @@ const AuthController = (Author, jwt, bcrypt) => {
                         expiresIn: process.env.ACCESS_TOKEN_LIFE
                     }
                 );
-
+                
+              //  console.log("Here...")
 
                 // send token as body parameter
                 author.token = token;
@@ -112,7 +118,7 @@ const AuthController = (Author, jwt, bcrypt) => {
 
         }catch(error){
             // console.log(error);
-            return res.status(500).send("Internal server error");
+            return res.status(500).send(error);
         }
 
     }

@@ -1,12 +1,46 @@
-version: '3.4'
+version: "3.4"
 
 services:
-  restapiwithauthandcontentnegotiation:
-    image: restapiwithauthandcontentnegotiation
+  mysqldb:
+    image: mysql:5.7
+    command: --default-authentication-plugin=mysql_native_password
+    restart: on-failure
+    container_name: mysqldb
+    environment:
+      MYSQL_ROOT_PASSWORD: secret
+      MYSQL_DATABASE: artdb
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost"]
+      timeout: 20s
+      retries: 10
+    # ports:
+    #   - 3307:3306
+    # networks:
+    #   - backend
+
+  app:
+    image: rest-with-express
+    container_name: restapi
+    restart: on-failure
+    # restart: always
+    depends_on:
+      mysqldb:
+        condition: service_healthy
     build:
       context: .
       dockerfile: ./Dockerfile
     environment:
       NODE_ENV: production
+      HOST: mysqldb
+      USR: root
+      PASSWORD: secret
+      DB: artdb
+      WAIT_HOSTS: mysql:5.7
     ports:
-      - 3000:3000
+      - 8084:8084
+
+    # networks:
+#       - backend
+
+# networks:
+# backend:

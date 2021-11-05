@@ -1,6 +1,10 @@
 const FORMAT = (data) => {
 
     function toArray(data){
+
+        if(data===undefined)
+            data = {};
+
         let dataArr = [];
         dataArr.push(data);
         return dataArr;
@@ -28,6 +32,7 @@ const FORMAT = (data) => {
                     + '<tbody>'
                     + data.map( (article) => {
                         return '<tr>' + 
+                                    '<td>' + article.uuid + '</td>' +  
                                     '<td>' + article.title + '</td>' +  
                                     '<td>' + article.description + '</td>' +
                                     '<td>' + article.author + '</td>' +
