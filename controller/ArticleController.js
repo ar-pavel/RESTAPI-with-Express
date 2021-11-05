@@ -1,4 +1,5 @@
 const FORMAT = require("../utils/converter");
+const { randomUUID } = require("crypto");
 
 const ArticleController = (Article) => {
   async function getArticles(req, res) {
@@ -177,6 +178,7 @@ const ArticleController = (Article) => {
 
     // create article
     const article = {
+      uuid: randomUUID(),
       title: req.body.title,
       description: req.body.description,
       author: req.user.username,
