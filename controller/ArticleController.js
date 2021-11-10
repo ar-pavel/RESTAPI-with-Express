@@ -178,7 +178,7 @@ const ArticleController = (Article) => {
 
     // create article
     const article = {
-      uuid: randomUUID(),
+      // uuid: randomUUID(),
       title: req.body.title,
       description: req.body.description,
       author: req.user.username,
