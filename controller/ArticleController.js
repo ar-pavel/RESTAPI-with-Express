@@ -1,4 +1,4 @@
-const FORMAT = require("../utils/converter");
+const convert = require("../utils/converter");
 const { randomUUID } = require("crypto");
 
 const ArticleController = (Article) => {
@@ -9,23 +9,8 @@ const ArticleController = (Article) => {
       res.status(200);
       // return res.send(data);
 
-      res.format({
-        json: function () {
-          res.json(data);
-        },
-        html: function () {
-          res.send(FORMAT(data).html());
-        },
-        csv: function () {
-          res.send(FORMAT(data).csv());
-        },
-        xml: function () {
-          res.send(FORMAT(data).xml());
-        },
-        text: function () {
-          res.send(FORMAT(data).text());
-        },
-      });
+      convert(res, data);
+
     } catch (err) {
       // request can't be processed
       console.log(err);
@@ -54,7 +39,10 @@ const ArticleController = (Article) => {
       console.log("Request params: ", req.params);
       const data = await Article.findByID(req.params.id);
 
-      if (!data) {
+      console.log(data)
+
+      if (data == undefined) {
+        console.log("NO DATA")
         return res.status(204).send("No content");
       }
 
@@ -62,23 +50,8 @@ const ArticleController = (Article) => {
 
       res.status(200);
 
-      res.format({
-        json: function () {
-          res.json(data);
-        },
-        html: function () {
-          res.send(FORMAT(data).html());
-        },
-        csv: function () {
-          res.send(FORMAT(data).csv());
-        },
-        xml: function () {
-          res.send(FORMAT(data).xml());
-        },
-        text: function () {
-          res.send(FORMAT(data).text());
-        },
-      });
+      convert(res, data);
+
     } catch (err) {
       // request can't be processed
       console.log(err);
@@ -112,23 +85,8 @@ const ArticleController = (Article) => {
 
       res.status(200);
 
-      res.format({
-        json: function () {
-          res.json(data);
-        },
-        html: function () {
-          res.send(FORMAT(data).html());
-        },
-        csv: function () {
-          res.send(FORMAT(data).csv());
-        },
-        xml: function () {
-          res.send(FORMAT(data).xml());
-        },
-        text: function () {
-          res.send(FORMAT(data).text());
-        },
-      });
+      convert(res, data);
+
     } catch (err) {
       // request can't be processed
       console.log(err);
@@ -192,23 +150,8 @@ const ArticleController = (Article) => {
       if (data) {
         // return res.status(201).send(data);
         res.status(201);
-        res.format({
-          json: function () {
-            res.json(data);
-          },
-          html: function () {
-            res.send(FORMAT(data).html());
-          },
-          csv: function () {
-            res.send(FORMAT(data).csv());
-          },
-          xml: function () {
-            res.send(FORMAT(data).xml());
-          },
-          plain: function () {
-            res.send(FORMAT(data).text());
-          },
-        });
+        convert(res, data);
+
       } else {
         return res.status(500).send({
           message:

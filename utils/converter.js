@@ -1,13 +1,9 @@
 const FORMAT = (data) => {
 
     function toArray(data){
-
         if(data===undefined)
-            data = {};
-
-        let dataArr = [];
-        dataArr.push(data);
-        return dataArr;
+            data = {};       
+        return [data];
     }
 
     function html (){
@@ -121,4 +117,26 @@ const FORMAT = (data) => {
     return {html, xml, text, csv, json};
 }
 
-module.exports = FORMAT;
+const convert = (res, data) => {
+    res.format({
+        json: function () {
+          res.json(data);
+        },
+        html: function () {
+          res.send(FORMAT(data).html());
+        },
+        csv: function () {
+          res.send(FORMAT(data).csv());
+        },
+        xml: function () {
+          res.send(FORMAT(data).xml());
+        },
+        text: function () {
+          res.send(FORMAT(data).text());
+        },
+    });
+}
+
+
+module.exports = convert;
+
